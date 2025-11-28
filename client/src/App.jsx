@@ -1,11 +1,34 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Forget from './pages/Forget';
+import Reset from './pages/Reset';
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
 
   return (
-    <>
-      <h1 className='text-4xl text-center text-rose-700 flex justify-center mt-10'>aabrakadaabra</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/signup' element={<Signup/>}/>
+        <Route path='/forget' element={<Forget/>}/>
+        <Route path='/reset/:token' element={<Reset/>}/>
+
+        {/* Protected route */}
+        <Route path='/dashboard' element={
+          <ProtectedRoute>
+          <Dashboard/>
+          </ProtectedRoute>
+        }
+        />
+
+        
+      </Routes>
+    </BrowserRouter>
   )
 }
 
