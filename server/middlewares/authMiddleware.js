@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
-    const authHeader = req.header.authorization;
+    const authHeader = req.headers.authorization;
 
     if(!authHeader) return res.status(401).json({message: "No token provided"});
 
@@ -10,7 +10,7 @@ export const authMiddleware = (req, res, next) => {
     try{
         const decode = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.user = decoded; //attach user info to request
+        req.user = decode; //attach user info to request
 
         next(); 
 
