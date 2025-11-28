@@ -38,37 +38,99 @@ export const signup = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    try{
-        const {email, password} = req.body;
+    try {
+        const { email, password } = req.body;
 
-        //check user
-        const user = await User.findOne({email});
-        if(!user) return res.status(400).json({message: "Invalid email"});
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "Invalid email" });
 
-        //compare password
+        // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch) return res.status(400).json({message: "Invalid password"});
+        if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
-        //create token
-        const token = jwt.sign(
+        // Create ACCESS TOKEN (15 min)
+
+        const accessToken = jwt.sign(
             {
                 id: user._id,
                 email: user.email,
                 role: user.role
             },
             process.env.JWT_SECRET,
-            {expiresIn: '1h'}
+            { expiresIn: "15m" }
         );
+
+        // create refrence token (7 days)
+
+        const refreshToken = jwt.sign(
+            { id: user._id },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        // Save refresh token in DB
+        user.refreshToken = refreshToken;
+        user.refreshTokenExpires = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
+        await user.save();
+
+        // Response
 
         res.json({
             message: "Login successful",
-            token
+            accessToken,
+            refreshToken
         });
 
-    }catch(error){
-        res.status(500).json({error: error.message});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const refreshAccessToken = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+
+        if(!refreshToken) return res.status(400).json({message: "Refresh token is required"});
+
+        //Find user with this refresh token 
+        const user = await User.findOne({ refreshToken });
+
+        if(!user) return res.status(403).json({message: "invalid refresh token"});
+
+        //check expiry
+        if(user.refreshTokenExpires < Date.now()){
+            return res.status(403).json({message: "refresh token expire"})
+        }
+
+        //Verify refresh token signature
+        jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET,(err, decoded) =>{
+            if(err){
+                return res.status(403).json({ message: "Invalid refresh token"});
+            }
+        });
+
+        //issue new access token 
+        const newAccessToken = jwt.sign(
+            {
+                id: user._id,
+                email: user.email,
+                role: user.role
+            },
+            process.env.JWT-SECRET,
+            { expiresIn: "15m"}
+        );
+
+        return res.json({
+            message: "new access token generated ",
+            accessToken: newAccessToken
+        })
+
+    }catch(err){
+        res.status(500).json({error:err.message});
     }
 }
+
 
 export const forgetPassword = async (req, res) => {
     try{
