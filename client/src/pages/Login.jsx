@@ -56,7 +56,7 @@ export default function Login() {
           <p className="text-red-600 text-center mb-3">{serverError}</p>
         )}
 
-        {/* EMAIL */}
+  
         <label className="block mb-1 font-medium">Email</label>
         <input
           type="email"
@@ -66,7 +66,7 @@ export default function Login() {
         />
         <p className="text-red-600 text-sm mb-2">{errors.email?.message}</p>
 
-        {/* PASSWORD */}
+
         <label className="block mb-1 font-medium">Password</label>
         <input
           type="password"
@@ -76,7 +76,7 @@ export default function Login() {
         />
         <p className="text-red-600 text-sm mb-2">{errors.password?.message}</p>
 
-        {/* BUTTON */}
+
         <button
           type="submit"
           disabled={isSubmitting}
@@ -89,7 +89,7 @@ export default function Login() {
 
         <p className="text-center text-sm mt-4">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600">
+          <Link to="/" className="text-blue-600">
             Sign up
           </Link>
         </p>
