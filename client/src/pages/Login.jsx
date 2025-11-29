@@ -10,7 +10,10 @@ const Login = () => {
   const {
     register, 
     handleSubmit,
-    formState:{error, isSubmitting},
+    formState:{errors
+      
+      
+      , isSubmitting},
   } = useForm()
 
   const onSubmit = async(data) =>{
@@ -43,8 +46,8 @@ const Login = () => {
             required: "Email is required",
           })} 
           />
-          {error.email && (
-            <p className="text-rose-500  text-sm">{error.email.messages}</p>
+          {errors.email && (
+            <p className="text-rose-500  text-sm">{errors.email.messages}</p>
           )}
         </div>
 
@@ -57,8 +60,8 @@ const Login = () => {
               required: "Password is required",
             })}
           />
-          {error.password && (
-            <p className="text-red-500 text-sm">{error.password.message}</p>
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
         </div>
         
