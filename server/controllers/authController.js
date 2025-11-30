@@ -4,9 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-// -----------------------------
+
 // SIGNUP
-// -----------------------------
+
 export const signup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -200,9 +200,8 @@ export const resetPassword = async (req, res) => {
 
 
 
-// -----------------------------
 // LOGOUT
-// -----------------------------
+
 export const logout = async (req, res) => {
     try {
         const { refreshToken } = req.body;
