@@ -39,11 +39,11 @@ export const signup = async (req, res) => {
 
 
 
-// -----------------------------
 // LOGIN (Access + Refresh Token)
-// -----------------------------
+
 export const login = async (req, res) => {
     try {
+        console.log("login req body", req.body);
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
@@ -85,9 +85,6 @@ export const login = async (req, res) => {
 
 
 
-// -----------------------------
-// REFRESH ACCESS TOKEN
-// -----------------------------
 export const refreshAccessToken = async (req, res) => {
     try {
         const { refreshToken } = req.body;
@@ -129,9 +126,8 @@ export const refreshAccessToken = async (req, res) => {
 
 
 
-// -----------------------------
-// FORGOT PASSWORD
-// -----------------------------
+
+
 export const forgetPassword = async (req, res) => {
     try {
         const { email } = req.body;
@@ -162,9 +158,8 @@ export const forgetPassword = async (req, res) => {
 
 
 
-// -----------------------------
 // RESET PASSWORD
-// -----------------------------
+
 export const resetPassword = async (req, res) => {
     try {
         const { token, newPassword } = req.body;

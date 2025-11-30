@@ -34,7 +34,7 @@ export default function Reset() {
     setErrorMsg("");
 
     try {
-      const res = await api.post("/auth/reset-password", {
+      const res = await api.post("/auth/resetpassword", {
         token,
         newPassword: data.newPassword,
       });
@@ -62,7 +62,6 @@ export default function Reset() {
           <p className="text-green-600 text-center mb-3">{serverMsg}</p>
         )}
 
-        {/* ERROR MESSAGE */}
         {errorMsg && (
           <p className="text-red-600 text-center mb-3">{errorMsg}</p>
         )}
@@ -79,7 +78,6 @@ export default function Reset() {
           {errors.newPassword?.message}
         </p>
 
-        {/* CONFIRM PASSWORD */}
         <label className="block mb-1 font-medium">Confirm Password</label>
         <input
           type="password"
@@ -91,7 +89,6 @@ export default function Reset() {
           {errors.confirmPassword?.message}
         </p>
 
-        {/* BUTTON */}
         <button
           type="submit"
           disabled={isSubmitting}

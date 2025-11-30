@@ -29,7 +29,8 @@ export default function Forget() {
     setErrorMsg("");
 
     try {
-      const res = await api.post("/auth/forget-password", data);
+      const res = await api.post("/auth/forgetpassword", data);
+
       setServerMsg(res.data.message || "Reset link has been sent to your email.");
     } catch (err) {
       setErrorMsg(

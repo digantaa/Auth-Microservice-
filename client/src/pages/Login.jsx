@@ -31,7 +31,8 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", data);
 
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
 
       navigate("/dashboard");
     } catch (error) {
@@ -56,7 +57,6 @@ export default function Login() {
           <p className="text-red-600 text-center mb-3">{serverError}</p>
         )}
 
-  
         <label className="block mb-1 font-medium">Email</label>
         <input
           type="email"
@@ -66,7 +66,6 @@ export default function Login() {
         />
         <p className="text-red-600 text-sm mb-2">{errors.email?.message}</p>
 
-
         <label className="block mb-1 font-medium">Password</label>
         <input
           type="password"
@@ -75,7 +74,6 @@ export default function Login() {
           placeholder="Enter your password"
         />
         <p className="text-red-600 text-sm mb-2">{errors.password?.message}</p>
-
 
         <button
           type="submit"
